@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProductDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblQuestion">
+          <Key>
+            <PropertyRef Name="QueId" />
+          </Key>
+          <Property Name="QueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SurveyId" Type="int" />
+          <Property Name="Question" Type="varchar" MaxLength="50" />
+          <Property Name="ControlType" Type="varchar" MaxLength="50" />
+          <Property Name="ControlOptions" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedON" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TblSurvey">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="FromDate" Type="date" />
+          <Property Name="ToDate" Type="date" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedON" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="DateofBirth" Type="date" />
+          <Property Name="IsSurveyor" Type="bit" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TblUserAnswer">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserAnswer" Type="varchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="QuesId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__TblUserAn__QuesI__59FA5E80">
+          <End Role="TblQuestion" Type="Self.TblQuestion" Multiplicity="1" />
+          <End Role="TblUserAnswer" Type="Self.TblUserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblQuestion">
+              <PropertyRef Name="QueId" />
+            </Principal>
+            <Dependent Role="TblUserAnswer">
+              <PropertyRef Name="QuesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblUserAn__UserI__59063A47">
+          <End Role="TblUser" Type="Self.TblUser" Multiplicity="1" />
+          <End Role="TblUserAnswer" Type="Self.TblUserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblUserAnswer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblQuestion_TblSurvey">
+          <End Role="TblSurvey" Type="Self.TblSurvey" Multiplicity="0..1" />
+          <End Role="TblQuestion" Type="Self.TblQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="TblQuestion">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CreateQuestionProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SurveyId" Type="int" Mode="In" />
+          <Parameter Name="Question" Type="varchar" Mode="In" />
+          <Parameter Name="ControlType" Type="varchar" Mode="In" />
+          <Parameter Name="ControlOptions" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedON" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="CreateSurveyProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Title" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+          <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedON" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="DeleteQuestionProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QueId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteSurvey" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SurveyId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Address" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="DateofBirth" Type="date" Mode="In" />
+          <Parameter Name="IsSurveyor" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="SelectAddQuestionProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SelectAllSurvey" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SelectAllUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateQuestion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QueId" Type="int" Mode="In" />
+          <Parameter Name="SurveyId" Type="int" Mode="In" />
+          <Parameter Name="Question" Type="varchar" Mode="In" />
+          <Parameter Name="ControlType" Type="varchar" Mode="In" />
+          <Parameter Name="ControlOptions" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedON" Type="date" Mode="In" />
+        </Function>
+        <Function Name="UpdateSurvey" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SurveyId" Type="int" Mode="In" />
+          <Parameter Name="Title" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+          <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedON" Type="date" Mode="In" />
+        </Function>
+        <Function Name="UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Address" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="DateofBirth" Type="date" Mode="In" />
+          <Parameter Name="IsSurveyor" Type="bit" Mode="In" />
+        </Function>
+        <EntityContainer Name="ProductDBModelStoreContainer">
+          <EntitySet Name="TblQuestion" EntityType="Self.TblQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblSurvey" EntityType="Self.TblSurvey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUser" EntityType="Self.TblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUserAnswer" EntityType="Self.TblUserAnswer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TblUserAn__QuesI__59FA5E80" Association="Self.FK__TblUserAn__QuesI__59FA5E80">
+            <End Role="TblQuestion" EntitySet="TblQuestion" />
+            <End Role="TblUserAnswer" EntitySet="TblUserAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblUserAn__UserI__59063A47" Association="Self.FK__TblUserAn__UserI__59063A47">
+            <End Role="TblUser" EntitySet="TblUser" />
+            <End Role="TblUserAnswer" EntitySet="TblUserAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblQuestion_TblSurvey" Association="Self.FK_TblQuestion_TblSurvey">
+            <End Role="TblSurvey" EntitySet="TblSurvey" />
+            <End Role="TblQuestion" EntitySet="TblQuestion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblQuestion">
+          <Key>
+            <PropertyRef Name="QueId" />
+          </Key>
+          <Property Name="QueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SurveyId" Type="Int32" />
+          <Property Name="Question" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ControlType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ControlOptions" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedON" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TblUserAnswers" Relationship="Self.FK__TblUserAn__QuesI__59FA5E80" FromRole="TblQuestion" ToRole="TblUserAnswer" />
+          <NavigationProperty Name="TblSurvey" Relationship="Self.FK_TblQuestion_TblSurvey" FromRole="TblQuestion" ToRole="TblSurvey" />
+        </EntityType>
+        <EntityType Name="TblSurvey">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedON" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TblQuestions" Relationship="Self.FK_TblQuestion_TblSurvey" FromRole="TblSurvey" ToRole="TblQuestion" />
+        </EntityType>
+        <EntityType Name="TblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateofBirth" Type="DateTime" Precision="0" />
+          <Property Name="IsSurveyor" Type="Boolean" />
+          <NavigationProperty Name="TblUserAnswers" Relationship="Self.FK__TblUserAn__UserI__59063A47" FromRole="TblUser" ToRole="TblUserAnswer" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TblUserAnswer">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserAnswer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="QuesId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblQuestion" Relationship="Self.FK__TblUserAn__QuesI__59FA5E80" FromRole="TblUserAnswer" ToRole="TblQuestion" />
+          <NavigationProperty Name="TblUser" Relationship="Self.FK__TblUserAn__UserI__59063A47" FromRole="TblUserAnswer" ToRole="TblUser" />
+        </EntityType>
+        <Association Name="FK__TblUserAn__QuesI__59FA5E80">
+          <End Role="TblQuestion" Type="Self.TblQuestion" Multiplicity="1" />
+          <End Role="TblUserAnswer" Type="Self.TblUserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblQuestion">
+              <PropertyRef Name="QueId" />
+            </Principal>
+            <Dependent Role="TblUserAnswer">
+              <PropertyRef Name="QuesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblQuestion_TblSurvey">
+          <End Role="TblSurvey" Type="Self.TblSurvey" Multiplicity="0..1" />
+          <End Role="TblQuestion" Type="Self.TblQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="TblQuestion">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblUserAn__UserI__59063A47">
+          <End Role="TblUser" Type="Self.TblUser" Multiplicity="1" />
+          <End Role="TblUserAnswer" Type="Self.TblUserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TblUserAnswer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblQuestions" EntityType="Self.TblQuestion" />
+          <EntitySet Name="TblSurveys" EntityType="Self.TblSurvey" />
+          <EntitySet Name="TblUsers" EntityType="Self.TblUser" />
+          <EntitySet Name="TblUserAnswers" EntityType="Self.TblUserAnswer" />
+          <AssociationSet Name="FK__TblUserAn__QuesI__59FA5E80" Association="Self.FK__TblUserAn__QuesI__59FA5E80">
+            <End Role="TblQuestion" EntitySet="TblQuestions" />
+            <End Role="TblUserAnswer" EntitySet="TblUserAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblQuestion_TblSurvey" Association="Self.FK_TblQuestion_TblSurvey">
+            <End Role="TblSurvey" EntitySet="TblSurveys" />
+            <End Role="TblQuestion" EntitySet="TblQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblUserAn__UserI__59063A47" Association="Self.FK__TblUserAn__UserI__59063A47">
+            <End Role="TblUser" EntitySet="TblUsers" />
+            <End Role="TblUserAnswer" EntitySet="TblUserAnswers" />
+          </AssociationSet>
+          <FunctionImport Name="CreateQuestionProcedure">
+            <Parameter Name="SurveyId" Mode="In" Type="Int32" />
+            <Parameter Name="Question" Mode="In" Type="String" />
+            <Parameter Name="ControlType" Mode="In" Type="String" />
+            <Parameter Name="ControlOptions" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="CreateSurveyProcedure">
+            <Parameter Name="Title" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteQuestionProcedure">
+          <Parameter Name="QueId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteSurvey">
+          <Parameter Name="SurveyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUser">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertUser">
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="DateofBirth" Mode="In" Type="DateTime" />
+            <Parameter Name="IsSurveyor" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="SelectAddQuestionProcedure" ReturnType="Collection(ProductDBModel.SelectAddQuestionProcedure_Result)" />
+          <FunctionImport Name="SelectAllSurvey" ReturnType="Collection(ProductDBModel.SelectAllSurvey_Result)" />
+          <FunctionImport Name="SelectAllUser" ReturnType="Collection(ProductDBModel.SelectAllUser_Result)" />
+          <FunctionImport Name="UpdateQuestion">
+            <Parameter Name="QueId" Mode="In" Type="Int32" />
+            <Parameter Name="SurveyId" Mode="In" Type="Int32" />
+            <Parameter Name="Question" Mode="In" Type="String" />
+            <Parameter Name="ControlType" Mode="In" Type="String" />
+            <Parameter Name="ControlOptions" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateSurvey">
+            <Parameter Name="SurveyId" Mode="In" Type="Int32" />
+            <Parameter Name="Title" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateUser">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="DateofBirth" Mode="In" Type="DateTime" />
+            <Parameter Name="IsSurveyor" Mode="In" Type="Boolean" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SelectAddQuestionProcedure_Result">
+          <Property Type="Int32" Name="QueId" Nullable="false" />
+          <Property Type="Int32" Name="SurveyId" Nullable="true" />
+          <Property Type="String" Name="Question" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ControlType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ControlOptions" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedON" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SelectAllSurvey_Result">
+          <Property Type="Int32" Name="SurveyId" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FromDate" Nullable="true" />
+          <Property Type="DateTime" Name="ToDate" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedON" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SelectAllUser_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DateofBirth" Nullable="true" />
+          <Property Type="Boolean" Name="IsSurveyor" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductDBModelStoreContainer" CdmEntityContainer="ProductDBEntities">
+          <EntitySetMapping Name="TblQuestions">
+            <EntityTypeMapping TypeName="ProductDBModel.TblQuestion">
+              <MappingFragment StoreEntitySet="TblQuestion">
+                <ScalarProperty Name="QueId" ColumnName="QueId" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="ControlType" ColumnName="ControlType" />
+                <ScalarProperty Name="ControlOptions" ColumnName="ControlOptions" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedON" ColumnName="CreatedON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblSurveys">
+            <EntityTypeMapping TypeName="ProductDBModel.TblSurvey">
+              <MappingFragment StoreEntitySet="TblSurvey">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedON" ColumnName="CreatedON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUsers">
+            <EntityTypeMapping TypeName="ProductDBModel.TblUser">
+              <MappingFragment StoreEntitySet="TblUser">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="DateofBirth" ColumnName="DateofBirth" />
+                <ScalarProperty Name="IsSurveyor" ColumnName="IsSurveyor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUserAnswers">
+            <EntityTypeMapping TypeName="ProductDBModel.TblUserAnswer">
+              <MappingFragment StoreEntitySet="TblUserAnswer">
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="UserAnswer" ColumnName="UserAnswer" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuesId" ColumnName="QuesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateQuestionProcedure" FunctionName="ProductDBModel.Store.CreateQuestionProcedure" />
+          <FunctionImportMapping FunctionImportName="CreateSurveyProcedure" FunctionName="ProductDBModel.Store.CreateSurveyProcedure" />
+          <FunctionImportMapping FunctionImportName="DeleteQuestionProcedure" FunctionName="ProductDBModel.Store.DeleteQuestionProcedure" />
+          <FunctionImportMapping FunctionImportName="DeleteSurvey" FunctionName="ProductDBModel.Store.DeleteSurvey" />
+          <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="ProductDBModel.Store.DeleteUser" />
+          <FunctionImportMapping FunctionImportName="InsertUser" FunctionName="ProductDBModel.Store.InsertUser" />
+          <FunctionImportMapping FunctionImportName="SelectAddQuestionProcedure" FunctionName="ProductDBModel.Store.SelectAddQuestionProcedure">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductDBModel.SelectAddQuestionProcedure_Result">
+                <ScalarProperty Name="QueId" ColumnName="QueId" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="ControlType" ColumnName="ControlType" />
+                <ScalarProperty Name="ControlOptions" ColumnName="ControlOptions" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedON" ColumnName="CreatedON" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SelectAllSurvey" FunctionName="ProductDBModel.Store.SelectAllSurvey">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductDBModel.SelectAllSurvey_Result">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedON" ColumnName="CreatedON" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SelectAllUser" FunctionName="ProductDBModel.Store.SelectAllUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductDBModel.SelectAllUser_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="DateofBirth" ColumnName="DateofBirth" />
+                <ScalarProperty Name="IsSurveyor" ColumnName="IsSurveyor" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateQuestion" FunctionName="ProductDBModel.Store.UpdateQuestion" />
+          <FunctionImportMapping FunctionImportName="UpdateSurvey" FunctionName="ProductDBModel.Store.UpdateSurvey" />
+          <FunctionImportMapping FunctionImportName="UpdateUser" FunctionName="ProductDBModel.Store.UpdateUser" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

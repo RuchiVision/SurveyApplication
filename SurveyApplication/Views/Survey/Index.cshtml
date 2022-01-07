@@ -1,0 +1,69 @@
+﻿@model IEnumerable<SurveyApplication.TblSurvey>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<style>
+    .dataTables_length {
+        float: left;
+        height: 2.5em;
+        width: 40%;
+    }
+    .dataTables_filter {
+        float: right !important;
+    }
+    div.dataTables_wrapper div.dataTables_paginate {
+        float: unset;
+        text-align: right;
+        white-space: nowrap;
+    }
+</style>
+<h2 style="text-align:center; margin-top:50px">Survey List</h2>
+<div class="container">
+    <table id="surveyTable" class="display table">
+        <thead>
+            <tr>
+                <th>SurveyId</th>
+                <th>Title</th>
+                <th>FromDate</th>
+                <th>ToDate</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SurveyId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FromDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.SurveyId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.SurveyId }) |
+                        @Html.ActionLink("Add Question", "Create", "Question", new { id = item.SurveyId }, null) 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+       $('#surveyTable').DataTable({
+            "dom": 'Blfrtip',
+        });
+        $('#surveyTable').DataTable().order([0, 'asc']).draw();
+    });
+</script>

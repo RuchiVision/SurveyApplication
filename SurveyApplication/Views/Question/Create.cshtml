@@ -1,0 +1,235 @@
+﻿@model SurveyApplication.TblQuestion
+<html>
+<head>
+    <style>
+        .draggable {
+            margin-top: 50px;
+            margin-left: 55px;
+            border: solid black;
+            width: 160px;
+            height: 32px;
+        }
+        .draggables {
+            margin-top: 50px;
+            width: 170px;
+            height: 20px;
+            border: solid black;
+        }
+        #Container {
+            position: absolute;
+            width: 1024px;
+            height: 500px;
+            left: 625px;
+            top: 100px;
+            overflow: auto;
+            margin-top: 200px;
+            border: 1px solid;
+        }
+        #Title {
+            position: absolute;
+            font-family: sans-serif;
+            font-size: 30px;
+            width: 1024px;
+            left: 150px;
+            color: Red;
+            text-align: center;
+            height: 100px;
+        }
+        .block {
+            position: relative;
+            width: 100px;
+            height: 50px;
+            left: 0px;
+            top: 50px;
+            margin-bottom: 2px;
+        }
+        .block1 {
+            position: relative;
+            width: 200px;
+            height: 50px;
+            left: 0px;
+            top: 50px;
+            background-color: green;
+            margin-bottom: 2px;
+            border: 1px solid;
+        }
+        #listOfItems {
+            position: absolute;
+            top: 100px;
+            width: 250px;
+            margin-top: 200px;
+            height: 500px;
+            border: 1px solid;
+            overflow: hidden;
+            border-style: doubled;
+        }
+        .close {
+            position: relative;
+            height: 15px;
+            width: 12px;
+            left: 976px;
+            border: 1px solid red;
+            display: none;
+        }
+        .block:hover .close {
+            display: block;
+        }
+        .new_element_class {
+            width: 80%;
+            overflow: hidden;
+            height: auto;
+            padding: 10px 20px;
+        }
+        #Container input[type="text"] {
+            padding: 10px;
+            width: 35%;
+        }
+    </style>
+</head>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <link href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css" />
+    <div class="form-horizontal">
+        <div id="myform">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Total Students:</label>@ViewBag.Employeedetails
+                    @Html.ValidationMessageFor(model => model.SurveyId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Question, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Question, new { htmlAttributes = new { @class = "form-control", @id = "Question" } })
+                    @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" id="btn" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Question")'" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="listOfItems" style="text-align: center; margin-left: 295px;">
+        <div id="TextBoxContainer" class="block">
+            <input id="btnAdd" type="button" value="Add" />
+        </div>
+        <div id="txtbox" class="block">
+            Text Box
+        </div>
+        <div id="txtfield" class="block">
+            Text Area
+        </div>
+        <div id="RB1" class="block">
+            Radio Button
+        </div>
+    </div>
+    <div id="Container">
+        <p id="demo"></p>
+        <p id="demo1"></p>
+        <p id="demo2"></p>
+        <p id="demo3"></p>
+    </div>
+    <input id="text1" type="hidden" value=""/>
+    @*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+}
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<SCRIPT language="javascript">
+    $('#Container').sortable({
+        helper: 'clone',
+        receive: function (event, ui) {
+            var block_id = ui.item.attr('id');
+            var html = '<div class="close">X</div>';
+            var a;
+            if (block_id == 'TextBoxContainer') {
+                html += ' ';
+            } else if (block_id == 'txtbox') {
+                html += '<input type="text" name="txt_name" class="draggable" id="textbox" placeholder="your text here">';
+            } else if (block_id == 'txtfield') {
+                html += '<textarea name="textarea_name" cols="40" rows="6" id="textarea"></textarea>';
+            } else if (block_id == 'RB1') {
+                html += '<input type="radio" name="radio_name" id="radio1" value="option1">Option1<input type="radio" id="radio2" name="radio_name" value="option2">Option2';
+            } else if (block_id == 'question') {
+                html += '<input type="textarea" name="question">';
+            }
+            ui.helper.removeAttr('style').addClass('new_element_class').html(html);
+            var y = document.getElementById("textbox").type;
+            document.getElementById("demo1").innerHTML = y;
+
+            var x = document.getElementById("textarea").tagName;
+            document.getElementById("demo").innerHTML = x;
+
+            var z = document.getElementById("radio1").type;
+            document.getElementById("demo2").innerHTML = z;
+
+            var z = document.getElementById("radio2").type;
+            document.getElementById("demo3").innerHTML = z;
+        }
+    });
+     $('.block').draggable({
+        helper: 'clone',
+        connectToSortable: '#Container'
+    });
+    function selectScale(id, index) {
+        var divid = "scaleid" + index;
+        document.getElementById(divid).style.display = "block";
+    }
+    $('#btn').click(function () {
+        var y = document.getElementById("textbox").type;
+        var c = document.getElementById("demo1").innerHTML = y;
+        var viewbagitem = '@ViewBag.SurveyId';
+        var td = $('#Question').val();
+        var text1 = '';
+        $('#Container').find('.txt1').each(function (index, Obj) {
+            if ($(Obj).val()) text1 += $(Obj).val() + ','
+        });
+        $('#text1').val(text1);
+        var options = text1;
+        $.ajax(
+            {
+                url: '/Question/InsertData',
+                data: {'name': c,'td': td,'id': viewbagitem,'optioons': options},
+                type: 'POST',
+            });
+    });
+    $(function () {
+        $("#btnAdd").bind("click", function () {
+            var div = $("<div />");
+            div.html(GetDynamicTextBox(""));
+
+            $("#Container").append(div);
+            $('.txt1').change(function () {
+                UpdateData()
+            });
+        });
+        $("#btnGet").bind("click", function () {
+            var valuesarr = new Array();
+            var phonearr = new Array();
+            var phonearr1 = new Array();
+            $("input[name=DynamicTextBox]").each(function () {
+                valuesarr.push($(this).val());
+                $('#DynamicTextBox').val(valuesarr);
+            });
+            alert(valuesarr);
+        });
+        $("body").on("click", ".remove", function () {$(this).closest("div").remove();
+        });
+    });
+    function GetDynamicTextBox(value) {
+        return '<input class="txt1" name = "DynamicTextBox" type="text" value = "' + value + '" /><input  type="button" value="Remove" class="remove" />';
+    }
+    function UpdateData() {
+        var text1 = ''
+        $('#Container').find('.txt1').each(function (index, Obj) {
+            if ($(Obj).val()) text1 += $(Obj).val() + ','
+        })
+        $('#text1').val(text1)
+    }
+</SCRIPT>
