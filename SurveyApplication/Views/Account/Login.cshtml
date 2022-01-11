@@ -1,6 +1,6 @@
 ﻿@model SurveyApplication.Models.LoginViewModel
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Login","Account",new {returnUrl =Request.QueryString["ReturnUrl"] },FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">

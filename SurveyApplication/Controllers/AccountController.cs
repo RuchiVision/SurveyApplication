@@ -1,9 +1,11 @@
-﻿using SurveyApplication.Models;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using SurveyApplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -24,7 +26,7 @@ namespace SurveyApplication.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel LoginViewModel)
+        public ActionResult Login(LoginViewModel LoginViewModel,string returnUrl)
         {
             if (IsValidUser(LoginViewModel.Email, LoginViewModel.Password))
             {
@@ -52,7 +54,7 @@ namespace SurveyApplication.Controllers
                 {
                     if (!IsUserExist(RegistrationViewModel.Email))
                     {
-                        string query = "insert into TblUser(FirstName,MiddleName,LastName,Address,City,DateofBirth,IsSurveyor,Email,Password) values (@FirstName,@MiddleName,@LastName,@Address,@City,@DateofBirth,@IsSurveyor,@Email,@Password)";
+                        string query = "insert into TblUser(FirstName,MiddleName,LastName,Address,City,DateofBirth,Email,Password,Role) values (@FirstName,@MiddleName,@LastName,@Address,@City,@DateofBirth,@Email,@Password,@Role)";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
                             cmd.Connection = con;
@@ -62,7 +64,7 @@ namespace SurveyApplication.Controllers
                             cmd.Parameters.AddWithValue("@Address", RegistrationViewModel.Address);
                             cmd.Parameters.AddWithValue("@City", RegistrationViewModel.City);
                             cmd.Parameters.AddWithValue("@DateofBirth", RegistrationViewModel.DateofBirth);
-                            cmd.Parameters.AddWithValue("@IsSurveyor", RegistrationViewModel.IsSurveyor);
+                            cmd.Parameters.AddWithValue("@Role", "User");
                             cmd.Parameters.AddWithValue("@Email", RegistrationViewModel.Email);
                             cmd.Parameters.AddWithValue("@Password", Base64Encode(RegistrationViewModel.Password));
                             con.Open();
@@ -160,6 +162,11 @@ namespace SurveyApplication.Controllers
             _context.TblUsers.Remove(data);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Account");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SurveyApplication.Controllers
     public class SurveyController : Controller
     {
         ProductDBEntities _context = new ProductDBEntities();
-        [Authorize]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Index()
         {
                var  model = _context.TblSurveys.ToList(); ;
@@ -22,7 +22,7 @@ namespace SurveyApplication.Controllers
         {
             return View();
         }
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         public ActionResult Create(TblSurvey model)
         { 
@@ -30,14 +30,14 @@ namespace SurveyApplication.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index",model);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Edit(int id)
         {
             var data = _context.TblSurveys.Where(x => x.SurveyId == id).FirstOrDefault();
             return View(data);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(TblSurvey model,int id)
         {
@@ -52,7 +52,7 @@ namespace SurveyApplication.Controllers
             }
             return RedirectToAction("Index");
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var data = _context.TblSurveys.SingleOrDefault(x => x.SurveyId == id);

@@ -37,6 +37,7 @@
     <Property Name="IsSurveyor" Type="bit" />
     <Property Name="Email" Type="varchar" MaxLength="50" />
     <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Role" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="TblUserAnswer">
     <Key>
@@ -83,69 +84,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="CreateQuestionProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="SurveyId" Type="int" Mode="In" />
-    <Parameter Name="Question" Type="varchar" Mode="In" />
-    <Parameter Name="ControlType" Type="varchar" Mode="In" />
-    <Parameter Name="ControlOptions" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedON" Type="datetime" Mode="In" />
-  </Function>
-  <Function Name="CreateSurveyProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="Title" Type="varchar" Mode="In" />
-    <Parameter Name="FromDate" Type="date" Mode="In" />
-    <Parameter Name="ToDate" Type="date" Mode="In" />
-    <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedON" Type="datetime" Mode="In" />
-  </Function>
-  <Function Name="DeleteQuestionProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="QueId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="DeleteSurvey" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="SurveyId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="InsertUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="FirstName" Type="varchar" Mode="In" />
-    <Parameter Name="MiddleName" Type="varchar" Mode="In" />
-    <Parameter Name="LastName" Type="varchar" Mode="In" />
-    <Parameter Name="Address" Type="varchar" Mode="In" />
-    <Parameter Name="City" Type="varchar" Mode="In" />
-    <Parameter Name="DateofBirth" Type="date" Mode="In" />
-    <Parameter Name="IsSurveyor" Type="bit" Mode="In" />
-  </Function>
-  <Function Name="SelectAddQuestionProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="SelectAllSurvey" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="SelectAllUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="UpdateQuestion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="QueId" Type="int" Mode="In" />
-    <Parameter Name="SurveyId" Type="int" Mode="In" />
-    <Parameter Name="Question" Type="varchar" Mode="In" />
-    <Parameter Name="ControlType" Type="varchar" Mode="In" />
-    <Parameter Name="ControlOptions" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedON" Type="date" Mode="In" />
-  </Function>
-  <Function Name="UpdateSurvey" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="SurveyId" Type="int" Mode="In" />
-    <Parameter Name="Title" Type="varchar" Mode="In" />
-    <Parameter Name="FromDate" Type="date" Mode="In" />
-    <Parameter Name="ToDate" Type="date" Mode="In" />
-    <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedON" Type="date" Mode="In" />
-  </Function>
-  <Function Name="UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="FirstName" Type="varchar" Mode="In" />
-    <Parameter Name="MiddleName" Type="varchar" Mode="In" />
-    <Parameter Name="LastName" Type="varchar" Mode="In" />
-    <Parameter Name="Address" Type="varchar" Mode="In" />
-    <Parameter Name="City" Type="varchar" Mode="In" />
-    <Parameter Name="DateofBirth" Type="date" Mode="In" />
-    <Parameter Name="IsSurveyor" Type="bit" Mode="In" />
-  </Function>
   <EntityContainer Name="ProductDBModelStoreContainer">
     <EntitySet Name="TblQuestion" EntityType="Self.TblQuestion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TblSurvey" EntityType="Self.TblSurvey" Schema="dbo" store:Type="Tables" />

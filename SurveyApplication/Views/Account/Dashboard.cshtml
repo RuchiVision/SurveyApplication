@@ -174,13 +174,22 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar" style="margin-left: 15px; margin-top: 10px; ">
                     <ul class="nav navbar-nav">
-                        @if (Request.IsAuthenticated)
+                        @if (Context.User.IsInRole("Admin"))
                         {
+                        <li class="nav-item">
                             <strong>@Html.Encode(User.Identity.Name)</strong>
                             <a href="@Url.Action("Index","Survey")" class="navbar-brand">Survey</a>
-                            @*<a href="@Url.Action("Index","Question")" class="navbar-brand">Question</a>*@
                             <a href="@Url.Action("Logout","Account")" class="navbar-brand">Logout</a>
+                        </li>
                         }
+                        @if (Context.User.IsInRole("User"))
+                        {
+                    <li class="nav-item">
+                        <strong>@Html.Encode(User.Identity.Name)</strong>
+                        <a href="@Url.Action("Index","Survey")" class="navbar-brand">Survey</a>
+                        <a href="@Url.Action("Logout","Account")" class="navbar-brand">Logout</a>
+                    </li>
+                          }
                     </ul>
                 </div>
             </div>

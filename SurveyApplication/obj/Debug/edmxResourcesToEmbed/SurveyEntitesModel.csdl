@@ -38,9 +38,10 @@
     <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="DateofBirth" Type="DateTime" Precision="0" />
     <Property Name="IsSurveyor" Type="Boolean" />
-    <NavigationProperty Name="TblUserAnswers" Relationship="Self.FK__TblUserAn__UserI__59063A47" FromRole="TblUser" ToRole="TblUserAnswer" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TblUserAnswers" Relationship="Self.FK__TblUserAn__UserI__59063A47" FromRole="TblUser" ToRole="TblUserAnswer" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="TblUserAnswer">
     <Key>
@@ -106,95 +107,5 @@
       <End Role="TblUser" EntitySet="TblUsers" />
       <End Role="TblUserAnswer" EntitySet="TblUserAnswers" />
     </AssociationSet>
-    <FunctionImport Name="CreateQuestionProcedure">
-      <Parameter Name="SurveyId" Mode="In" Type="Int32" />
-      <Parameter Name="Question" Mode="In" Type="String" />
-      <Parameter Name="ControlType" Mode="In" Type="String" />
-      <Parameter Name="ControlOptions" Mode="In" Type="String" />
-      <Parameter Name="CreatedBy" Mode="In" Type="String" />
-      <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="CreateSurveyProcedure">
-      <Parameter Name="Title" Mode="In" Type="String" />
-      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-      <Parameter Name="CreatedBy" Mode="In" Type="String" />
-      <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="DeleteQuestionProcedure">
-      <Parameter Name="QueId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="DeleteSurvey">
-      <Parameter Name="SurveyId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="DeleteUser">
-      <Parameter Name="UserId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="InsertUser">
-      <Parameter Name="FirstName" Mode="In" Type="String" />
-      <Parameter Name="MiddleName" Mode="In" Type="String" />
-      <Parameter Name="LastName" Mode="In" Type="String" />
-      <Parameter Name="Address" Mode="In" Type="String" />
-      <Parameter Name="City" Mode="In" Type="String" />
-      <Parameter Name="DateofBirth" Mode="In" Type="DateTime" />
-      <Parameter Name="IsSurveyor" Mode="In" Type="Boolean" />
-    </FunctionImport>
-    <FunctionImport Name="SelectAddQuestionProcedure" ReturnType="Collection(ProductDBModel.SelectAddQuestionProcedure_Result)" />
-    <FunctionImport Name="SelectAllSurvey" ReturnType="Collection(ProductDBModel.SelectAllSurvey_Result)" />
-    <FunctionImport Name="SelectAllUser" ReturnType="Collection(ProductDBModel.SelectAllUser_Result)" />
-    <FunctionImport Name="UpdateQuestion">
-      <Parameter Name="QueId" Mode="In" Type="Int32" />
-      <Parameter Name="SurveyId" Mode="In" Type="Int32" />
-      <Parameter Name="Question" Mode="In" Type="String" />
-      <Parameter Name="ControlType" Mode="In" Type="String" />
-      <Parameter Name="ControlOptions" Mode="In" Type="String" />
-      <Parameter Name="CreatedBy" Mode="In" Type="String" />
-      <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="UpdateSurvey">
-      <Parameter Name="SurveyId" Mode="In" Type="Int32" />
-      <Parameter Name="Title" Mode="In" Type="String" />
-      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-      <Parameter Name="CreatedBy" Mode="In" Type="String" />
-      <Parameter Name="CreatedON" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="UpdateUser">
-      <Parameter Name="UserId" Mode="In" Type="Int32" />
-      <Parameter Name="FirstName" Mode="In" Type="String" />
-      <Parameter Name="MiddleName" Mode="In" Type="String" />
-      <Parameter Name="LastName" Mode="In" Type="String" />
-      <Parameter Name="Address" Mode="In" Type="String" />
-      <Parameter Name="City" Mode="In" Type="String" />
-      <Parameter Name="DateofBirth" Mode="In" Type="DateTime" />
-      <Parameter Name="IsSurveyor" Mode="In" Type="Boolean" />
-    </FunctionImport>
   </EntityContainer>
-  <ComplexType Name="SelectAddQuestionProcedure_Result">
-    <Property Type="Int32" Name="QueId" Nullable="false" />
-    <Property Type="Int32" Name="SurveyId" Nullable="true" />
-    <Property Type="String" Name="Question" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ControlType" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ControlOptions" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
-    <Property Type="DateTime" Name="CreatedON" Nullable="true" Precision="23" />
-  </ComplexType>
-  <ComplexType Name="SelectAllSurvey_Result">
-    <Property Type="Int32" Name="SurveyId" Nullable="false" />
-    <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
-    <Property Type="DateTime" Name="FromDate" Nullable="true" />
-    <Property Type="DateTime" Name="ToDate" Nullable="true" />
-    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
-    <Property Type="DateTime" Name="CreatedON" Nullable="true" Precision="23" />
-  </ComplexType>
-  <ComplexType Name="SelectAllUser_Result">
-    <Property Type="Int32" Name="UserId" Nullable="false" />
-    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Address" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
-    <Property Type="DateTime" Name="DateofBirth" Nullable="true" />
-    <Property Type="Boolean" Name="IsSurveyor" Nullable="true" />
-  </ComplexType>
 </Schema>

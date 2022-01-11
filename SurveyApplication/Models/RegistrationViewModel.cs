@@ -44,5 +44,7 @@ namespace SurveyApplication.Models
         [StringLength(150, MinimumLength = 6)]
         [Display(Name = "Password: ")]
         public string Password { get; set; }
+
+        public string Role { get; set; }
     }
 }

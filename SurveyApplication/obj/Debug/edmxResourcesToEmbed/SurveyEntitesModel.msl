@@ -29,8 +29,7 @@
     <EntitySetMapping Name="TblUsers">
       <EntityTypeMapping TypeName="ProductDBModel.TblUser">
         <MappingFragment StoreEntitySet="TblUser">
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
@@ -39,6 +38,8 @@
           <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="DateofBirth" ColumnName="DateofBirth" />
           <ScalarProperty Name="IsSurveyor" ColumnName="IsSurveyor" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -52,53 +53,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="CreateQuestionProcedure" FunctionName="ProductDBModel.Store.CreateQuestionProcedure" />
-    <FunctionImportMapping FunctionImportName="CreateSurveyProcedure" FunctionName="ProductDBModel.Store.CreateSurveyProcedure" />
-    <FunctionImportMapping FunctionImportName="DeleteQuestionProcedure" FunctionName="ProductDBModel.Store.DeleteQuestionProcedure" />
-    <FunctionImportMapping FunctionImportName="DeleteSurvey" FunctionName="ProductDBModel.Store.DeleteSurvey" />
-    <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="ProductDBModel.Store.DeleteUser" />
-    <FunctionImportMapping FunctionImportName="InsertUser" FunctionName="ProductDBModel.Store.InsertUser" />
-    <FunctionImportMapping FunctionImportName="SelectAddQuestionProcedure" FunctionName="ProductDBModel.Store.SelectAddQuestionProcedure">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="ProductDBModel.SelectAddQuestionProcedure_Result">
-          <ScalarProperty Name="QueId" ColumnName="QueId" />
-          <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
-          <ScalarProperty Name="Question" ColumnName="Question" />
-          <ScalarProperty Name="ControlType" ColumnName="ControlType" />
-          <ScalarProperty Name="ControlOptions" ColumnName="ControlOptions" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedON" ColumnName="CreatedON" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SelectAllSurvey" FunctionName="ProductDBModel.Store.SelectAllSurvey">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="ProductDBModel.SelectAllSurvey_Result">
-          <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedON" ColumnName="CreatedON" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SelectAllUser" FunctionName="ProductDBModel.Store.SelectAllUser">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="ProductDBModel.SelectAllUser_Result">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="DateofBirth" ColumnName="DateofBirth" />
-          <ScalarProperty Name="IsSurveyor" ColumnName="IsSurveyor" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="UpdateQuestion" FunctionName="ProductDBModel.Store.UpdateQuestion" />
-    <FunctionImportMapping FunctionImportName="UpdateSurvey" FunctionName="ProductDBModel.Store.UpdateSurvey" />
-    <FunctionImportMapping FunctionImportName="UpdateUser" FunctionName="ProductDBModel.Store.UpdateUser" />
   </EntityContainerMapping>
 </Mapping>

@@ -10,20 +10,41 @@ namespace SurveyApplication.Controllers
     public class QuestionController : Controller
     {
         ProductDBEntities _context = new ProductDBEntities();
-        public ActionResult Index()
+        //[Authorize(Roles = "User")]
+        [HttpGet]
+        public ActionResult Index(int id)
+        {
+            TblQuestion model = _context.TblQuestions.Find(id);
+            var data = _context.TblQuestions.Where(x => x.SurveyId == id).Select(x => x.Question).ToList();
+            ViewData["data"] = data;
+            var datas = _context.TblQuestions.Where(x => x.SurveyId == id).Select(x => x.ControlType).FirstOrDefault();
+            ViewBag.datas = datas;
+            var options = _context.TblQuestions.Where(x => x.SurveyId == id).Select(x => x.ControlOptions).FirstOrDefault();
+            ViewBag.options = options;
+            //main
+            //var t = _context.TblQuestions.Where(x => x.SurveyId == id).Select(x => new { x.Question, x.ControlType }).ToList();
+            //ViewBag.t = t;
+            return View();
+        }
+         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult QuestionList()
         {
             var data = _context.TblQuestions.ToList();
             return View(data);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Create(int id)
         {
             TblSurvey model = _context.TblSurveys.Find(id);
             var data = _context.TblSurveys.Where(x => x.SurveyId == id).Select(x => x.Title).FirstOrDefault();
-            ViewBag.Employeedetails = data;
+            ViewBag.SurveyName = data;
             ViewBag.SurveyId = id;
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult InsertData(int id, string name,string td, string optioons)
         {
@@ -40,25 +61,23 @@ namespace SurveyApplication.Controllers
         public ActionResult Edit(int id)
         {
             TblQuestion model = _context.TblQuestions.Find(id);
-            _context.TblQuestions.Where(x => x.QueId == id).FirstOrDefault();
-            TblSurvey models = _context.TblSurveys.Find(id);
-            var data = _context.TblSurveys.Where(x => x.SurveyId == id).Select(x => x.Title).FirstOrDefault();
-            ViewBag.Employeedetails = data;
+            _context.TblQuestions.Where(x => x.QueId == model.QueId).Select(x => x.SurveyId == model.SurveyId).FirstOrDefault();
             return View(model);
         }
         [HttpPost]
         public ActionResult Edit(TblQuestion model,int id)
         {
             var data = _context.TblQuestions.Where(x => x.QueId == model.QueId).FirstOrDefault();
-            if(data != null)
+            var datas = _context.TblSurveys.Where(x => x.SurveyId == id).Select(x => x.Title).FirstOrDefault();
+            ViewBag.SurveyName = datas;
+            if (data != null)
             {
-                data.SurveyId = model.SurveyId;
                 data.Question = model.Question;
                 data.ControlOptions = model.ControlOptions;
                 data.ControlType = model.ControlType;
                 _context.SaveChanges();
             }
-            ViewBag.Survey = new SelectList(_context.TblSurveys, "SurveyId", "Title", model.SurveyId);
+           
             return RedirectToAction("Index",model);
         }
         public ActionResult Delete(int id)

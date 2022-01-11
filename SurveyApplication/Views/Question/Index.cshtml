@@ -9,61 +9,74 @@
         height: 2.5em;
         width: 40%;
     }
+
     .dataTables_filter {
         float: right !important;
     }
+
     div.dataTables_wrapper div.dataTables_paginate {
         float: unset;
         text-align: right;
         white-space: nowrap;
     }
 </style>
-<div class="container">
-    <h2 style="text-align:center; margin-top:50px">Question List</h2>
-    <table  id="myTable" class="display table">
-        <thead>
-            <tr>
-                <th>QuestionId</th>
-                <th>SurveyId</th>
-                <th>Question</th>
-                <th>ControlType</th>
-                <th>ControlOptions</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+@if (Context.User.IsInRole("User"))
+{
+    <div class="container">
+        <h2>Question Paper</h2>
+        <ol>
+            @*@{
+                foreach (var data in ViewBag.t as IEnumerable<string>)
+                {
+                    <li>
+                        @data
+                    </li>
+                }
+              
+            }*@
+
+            @*main*@
+            @*@{ 
+                foreach(var p in ViewBag.t)
+                {
+                        <li>
+                            @p
+                        </li>
+                }
+            }*@
+
+            @foreach(var p in ViewBag.data)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.QueId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SurveyId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Question)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ControlType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ControlOptions)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.QueId }) 
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    <li>
+                        @p
+                        <ul>
+                            @foreach (var q in ViewBag.datas)
+                            {
+                                for(int i=0; i < 1; i++)
+                                {
+                                    <input type="text" name="text1" />
+                                }
+                            }
+                            @foreach (var r in ViewBag.options)
+                            {
+                                @r
+                            }
+                        </ul>
+                    </li>
+             }
+
+        </ol>
+    </div>
+}
+<div>
+    <a href="~/Survey/Index" style="margin-bottom:20px; margin-top:20px; margin-left:300px">Back to List of Survey</a>
 </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script>
-        $('#myTable').DataTable({
-            "dom": 'Blfrtip'
-        });
-        $('#myTable').DataTable().order([0, 'asc']).draw();
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $('#myTable').DataTable({
+        "dom": 'Blfrtip'
+    });
+    $('#myTable').DataTable().order([0, 'asc']).draw();
+</script>
